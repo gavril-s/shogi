@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShogiGUI", "ShogiGUI\ShogiGUI.csproj", "{77EDCD70-3DCD-4D31-A5C9-63FD8788F4C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShogiModel", "ShogiModel\ShogiModel.csproj", "{0A9ED838-EE97-4324-88E5-16E5133B0E51}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{77EDCD70-3DCD-4D31-A5C9-63FD8788F4C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77EDCD70-3DCD-4D31-A5C9-63FD8788F4C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77EDCD70-3DCD-4D31-A5C9-63FD8788F4C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77EDCD70-3DCD-4D31-A5C9-63FD8788F4C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A9ED838-EE97-4324-88E5-16E5133B0E51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A9ED838-EE97-4324-88E5-16E5133B0E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A9ED838-EE97-4324-88E5-16E5133B0E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A9ED838-EE97-4324-88E5-16E5133B0E51}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {15E864BB-8048-45DE-BFB7-0182F911470C}
+	EndGlobalSection
+EndGlobal
