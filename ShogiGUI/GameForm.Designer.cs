@@ -18,6 +18,8 @@
                 components.Dispose();
             }
             base.Dispose(disposing);
+            Program.GetMenuForm().Show();
+            destroyed = true;
         }
 
         #region Код, автоматически созданный конструктором форм Windows

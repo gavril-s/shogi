@@ -18,6 +18,7 @@ namespace ShogiGUI
         private List<(int x, int y, string prevText)> temp;
         private (int x, int y)? selectedCell;
         private (int x, int y)? targetCell;
+        private bool destroyed;
         public GameForm()
         { 
             InitializeComponent();
@@ -26,8 +27,15 @@ namespace ShogiGUI
             temp = new List<(int x, int y, string prevText)>();
             selectedCell = null;
             targetCell = null;
+            destroyed = false;
             ShowBoard();
         }
+
+        public bool Destroyed()
+        {
+            return destroyed;
+        }
+
         private void ClearTemp()
         {
             foreach ((int x, int y, string prevText) in temp)

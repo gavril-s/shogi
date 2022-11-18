@@ -12,6 +12,13 @@ namespace ShogiGUI
 {
     public partial class MenuForm : Form
     {
+        private bool destroyed = false;
+
+        public bool Destroyed()
+        {
+            return destroyed;
+        }
+
         public MenuForm()
         {
             InitializeComponent();
@@ -20,7 +27,7 @@ namespace ShogiGUI
 
         private void ToTheGameButton_OnClick(object sender, EventArgs e)
         {
-            Program.gameForm.Show();
+            Program.GetGameForm().Show();
             this.Hide();
         }
     }

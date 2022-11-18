@@ -8,8 +8,26 @@ namespace ShogiGUI
 {
     internal static class Program
     {
-        public static GameForm gameForm;
-        public static MenuForm menuForm;
+        private static GameForm gameForm;
+        private static MenuForm menuForm;
+
+        public static GameForm GetGameForm()
+        {
+            if (gameForm == null || gameForm.Destroyed())
+            {
+                gameForm = new GameForm();
+            }
+            return gameForm;
+        }
+
+        public static MenuForm GetMenuForm()
+        {
+            if (menuForm == null || menuForm.Destroyed())
+            {
+                menuForm = new MenuForm();
+            }
+            return menuForm;
+        }
 
         /// <summary>
         /// Главная точка входа для приложения.
@@ -21,8 +39,8 @@ namespace ShogiGUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            gameForm = new GameForm();
-            menuForm = new MenuForm();
+            gameForm = GetGameForm();
+            menuForm = GetMenuForm();
             Application.Run(menuForm);
         }
     }
