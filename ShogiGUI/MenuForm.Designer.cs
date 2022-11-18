@@ -28,12 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
+            this.ToTheGameButton = new System.Windows.Forms.Button();
+            this.SuspendLayout();
+            // 
+            // ToTheGameButton
+            // 
+            this.ToTheGameButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 25F);
+            this.ToTheGameButton.Location = new System.Drawing.Point(100, 120);
+            this.ToTheGameButton.Name = "ToTheGameButton";
+            this.ToTheGameButton.Size = new System.Drawing.Size(200, 100);
+            this.ToTheGameButton.TabIndex = 0;
+            this.ToTheGameButton.Text = "К игре";
+            this.ToTheGameButton.UseVisualStyleBackColor = true;
+            // 
+            // MenuForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(384, 361);
+            this.Controls.Add(this.ToTheGameButton);
+            this.Name = "MenuForm";
             this.Text = "MenuForm";
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.Button ToTheGameButton;
     }
 }

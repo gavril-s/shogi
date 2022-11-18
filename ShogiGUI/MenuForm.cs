@@ -15,6 +15,13 @@ namespace ShogiGUI
         public MenuForm()
         {
             InitializeComponent();
+            ToTheGameButton.Click += ToTheGameButton_OnClick;
+        }
+
+        private void ToTheGameButton_OnClick(object sender, EventArgs e)
+        {
+            Program.gameForm.Show();
+            this.Hide();
         }
     }
 }
