@@ -11,4 +11,12 @@ namespace ShogiModel
         White = 0, 
         Black = 1
     }
+
+    public static class GameSideOpponent
+    {
+        public static GameSide Opponent(this GameSide side)
+        {
+            return (side == GameSide.White) ? GameSide.Black : GameSide.White;
+        }
+    }
 }

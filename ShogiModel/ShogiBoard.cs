@@ -9,7 +9,12 @@ namespace ShogiModel
     public class ShogiBoard
     {
         public int Size = 9;
+        private ShogiPiece?[,] prevBoardState;
+        private (int x, int y) prevWhiteKing;
+        private (int x, int y) prevBlackKing;
         private ShogiPiece?[,] Board;
+        private (int x, int y) whiteKing;
+        private (int x, int y) blackKing;
 
         internal ShogiBoard()
         {
@@ -17,14 +22,63 @@ namespace ShogiModel
             FillBoardDefault();
         }
 
-        internal void Move((int x, int y) from, (int x, int y) to)
+        private void SaveBoard()
         {
+            prevBoardState = (ShogiPiece?[,])Board.Clone();
+            prevWhiteKing = whiteKing;
+            prevBlackKing = blackKing;
+        }
+
+        internal ShogiPiece? Move((int x, int y) from, (int x, int y) to)
+        {
+            SaveBoard();
             if (InsideBoard(from.x, from.y) && InsideBoard(to.x, to.y))
             {
+                if (from == whiteKing)
+                {
+                    whiteKing = to;
+                }
+                if (from == blackKing)
+                {
+                    blackKing = to;
+                }
+                ShogiPiece? drop = Board[to.x, to.y];
                 Board[to.x, to.y] = Board[from.x, from.y];
                 Board[from.x, from.y] = null;
+                if (drop != null)
+                {
+                    ShogiPiece dropPiece = (ShogiPiece)drop;
+                    return dropPiece.Opposite();
+                }
+            }
+            return null;
+        }
+
+        internal void Drop(ShogiPiece? piece, (int x, int y) to)
+        {
+            SaveBoard();
+            if (InsideBoard(to.x, to.y))
+            {
+                Board[to.x, to.y] = piece;
             }
         }
+
+        internal void Undo()
+        {
+            Board = (ShogiPiece?[,])prevBoardState.Clone();
+            whiteKing = prevWhiteKing;
+            blackKing = prevBlackKing;
+        }
+        public string NameRUS(int x, int y)
+        {
+            if (!InsideBoard(x, y) || IsFree(x, y))
+            {
+                return "";
+            }
+            ShogiPiece piece = (ShogiPiece)Board[x, y];
+            return piece.NameRUS();
+        }
+
         public string Name(int x, int y)
         {
             if (!InsideBoard(x, y) || IsFree(x, y))
@@ -34,6 +88,28 @@ namespace ShogiModel
             ShogiPiece piece = (ShogiPiece)Board[x, y];
             return piece.Name();
         }
+
+        public string OppositeSideName(int x, int y)
+        {
+
+            if (!InsideBoard(x, y) || IsFree(x, y))
+            {
+                return "";
+            }
+            ShogiPiece piece = (ShogiPiece)Board[x, y];
+            return piece.Opposite().Name();
+        }
+
+        public (int x, int y) WhiteKing()
+        {
+            return whiteKing;
+        }
+
+        public (int x, int y) BlackKing()
+        {
+            return blackKing;
+        }
+
         private bool InsideBoard(int x, int y)
         {
             return (x >= 0 && x < Board.GetLength(0) &&
@@ -95,7 +171,7 @@ namespace ShogiModel
             return false;
         }
 
-        public List<(int x, int y)> AvailableMoves(int x, int y)
+        internal List<(int x, int y)> AvailableMoves(int x, int y)
         {
             List<(int x, int y)> result = new List<(int x, int y)>();
 
@@ -363,6 +439,8 @@ namespace ShogiModel
 
             Board[Size - 1, 4] = ShogiPiece.KingWhite;
             Board[0,        4] = ShogiPiece.KingBlack;
+            whiteKing = (Size - 1, 4);
+            blackKing = (0, 4);
 
             Board[Size - 2, 1       ] = ShogiPiece.BishopWhite;
             Board[1,        Size - 2] = ShogiPiece.BishopBlack;

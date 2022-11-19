@@ -118,7 +118,91 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Pawn" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\Pawn.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BishopBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\bishopblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="BishopWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\bishopwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Dot" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\dot.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DragonBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\dragonblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DragonWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\dragonwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoldBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\goldblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="GoldWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\goldwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HorseBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\horseblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="HorseWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\horsewhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KingBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\kingblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KingWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\kingwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KnightBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\knightblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="KnightWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\knightwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LanceBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\lanceblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="LanceWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\lancewhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PawnBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\pawnblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PawnWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\pawnwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedKnightBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedknightblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedKnightWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedknightwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedLanceBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedlanceblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedLanceWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedlancewhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedPawnBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedpawnblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedPawnWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedpawnwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedSilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedsilverblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="PromotedSilverWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\promotedsilverwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RookBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\rookblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="RookWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\rookwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SilverBlack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\silverblack.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="SilverWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\pieces\silverwhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

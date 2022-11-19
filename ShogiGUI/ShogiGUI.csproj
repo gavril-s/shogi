@@ -96,7 +96,41 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Pawn.png" />
+    <Content Include="Pieces\Dot.png" />
+    <EmbeddedResource Include="Pieces\BishopBlack.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Pieces\BishopWhite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="Pieces\DragonBlack.png" />
+    <Content Include="Pieces\DragonWhite.png" />
+    <Content Include="Pieces\GoldBlack.png" />
+    <Content Include="Pieces\GoldWhite.png" />
+    <Content Include="Pieces\HorseBlack.png" />
+    <Content Include="Pieces\HorseWhite.png" />
+    <Content Include="Pieces\KingBlack.png" />
+    <Content Include="Pieces\KingWhite.png" />
+    <Content Include="Pieces\KnightBlack.png" />
+    <Content Include="Pieces\KnightWhite.png" />
+    <Content Include="Pieces\LanceBlack.png" />
+    <Content Include="Pieces\LanceWhite.png" />
+    <Content Include="Pieces\PawnBlack.png" />
+    <EmbeddedResource Include="Pieces\PawnWhite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <Content Include="Pieces\PromotedKnightBlack.png" />
+    <Content Include="Pieces\PromotedKnightWhite.png" />
+    <Content Include="Pieces\PromotedLanceBlack.png" />
+    <Content Include="Pieces\PromotedLanceWhite.png" />
+    <Content Include="Pieces\PromotedPawnBlack.png" />
+    <Content Include="Pieces\PromotedPawnWhite.png" />
+    <Content Include="Pieces\PromotedSilverBlack.png" />
+    <Content Include="Pieces\PromotedSilverWhite.png" />
+    <Content Include="Pieces\RookBlack.png" />
+    <Content Include="Pieces\RookWhite.png" />
+    <Content Include="Pieces\SilverBlack.png" />
+    <Content Include="Pieces\SilverWhite.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
