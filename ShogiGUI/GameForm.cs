@@ -102,6 +102,24 @@ namespace ShogiGUI
             GameStateLabel.Text = game.CurrentMessage();
         }
 
+        private Bitmap GetImageForButton(string name, int? width=null, int? height=null)
+        {
+            if (width == null || height == null)
+            {
+                width = buttonWidth;
+                height = buttonHeight;
+            }
+            Bitmap image = ShogiGUI.Properties.Resources.ResourceManager.GetObject(name) as Bitmap;
+            if (image != null)
+            {
+                Bitmap resizedImage = new Bitmap(
+                    image,
+                    new Size((int)width, (int)height));
+                return resizedImage;
+            }
+            return null;
+        }
+
         private void ShowBoard()
         {
             buttonWidth = ScreenBoard.Width / game.Board.Size;
@@ -121,19 +139,10 @@ namespace ShogiGUI
                     currentButton.BackColor = defaultColor;
                     currentButton.Tag = (i, j);
                     currentButton.TextImageRelation = TextImageRelation.Overlay;
+                    currentButton.ImageAlign = ContentAlignment.MiddleCenter;
 
-                    string imageName = game.Board.Name(i, j);
-                    Bitmap image = ShogiGUI.Properties.Resources.ResourceManager.GetObject(imageName) as Bitmap;
-                    if (image != null)
-                    {
-                        Bitmap resizedImage = new Bitmap(
-                            image,
-                            new Size(
-                                (int)(buttonWidth * pieceSize),
-                                (int)(buttonHeight * pieceSize)));
-                        currentButton.Image = resizedImage;
-                        currentButton.ImageAlign = ContentAlignment.MiddleCenter;
-                    }           
+                    currentButton.Image = GetImageForButton(game.Board.Name(i, j),
+                        (int)(buttonWidth * pieceSize), (int)(buttonHeight * pieceSize));
                     
                     ScreenBoard.Controls.Add(currentButton);
                     UpdateToolTip(currentButton, game.Board.NameRUS(i, j));
@@ -184,6 +193,7 @@ namespace ShogiGUI
                 blackHandGrid.Add(currentButton);
             }
         }
+
         private Button GetHandCellButton((GameSide side, int x)? cell)
         {
             (GameSide side, int x) = NullableToNormal(cell);
@@ -339,16 +349,8 @@ namespace ShogiGUI
                 (GameSide side, int x) freeHandCellMod = NullableToNormal(freeHandCell);
                 SwapBoardAndHandCells(from, freeHandCellMod);
                 string newImageName = game.Hand(freeHandCellMod.side).Name(freeHandCellMod.x);
-                Bitmap newImage = ShogiGUI.Properties.Resources.ResourceManager.GetObject(newImageName) as Bitmap;
-                if (newImage != null)
-                {
-                    Bitmap resizedImage = new Bitmap(
-                        newImage,
-                        new Size(
-                            (int)(buttonWidth * pieceSize),
-                            (int)(buttonHeight * pieceSize)));
-                    GetHandCellButton(freeHandCell).Image = resizedImage;
-                }
+                GetHandCellButton(freeHandCell).Image = GetImageForButton(newImageName, 
+                    (int)(buttonWidth * pieceSize), (int)(buttonHeight * pieceSize));
                 UpdateToolTip(GetHandCellButton(freeHandCell), game.Hand(freeHandCellMod.side).NameRUS(freeHandCellMod.x));
             }
         }
@@ -364,16 +366,8 @@ namespace ShogiGUI
         private void PromoteCell((int x, int y) cell)
         {
             string newImageName = game.Board.Name(cell.x, cell.y);
-            Bitmap newImage = ShogiGUI.Properties.Resources.ResourceManager.GetObject(newImageName) as Bitmap;
-            if (newImage != null)
-            {
-                Bitmap resizedImage = new Bitmap(
-                    newImage,
-                    new Size(
-                        (int)(buttonWidth * pieceSize),
-                        (int)(buttonHeight * pieceSize)));
-                boardGrid[cell.x, cell.y].Image = resizedImage;
-            }
+            boardGrid[cell.x, cell.y].Image = GetImageForButton(newImageName,
+                (int)(buttonWidth * pieceSize), (int)(buttonHeight * pieceSize));
             UpdateToolTip(boardGrid[cell.x, cell.y], game.Board.NameRUS(cell.x, cell.y));
         }
 
@@ -454,6 +448,7 @@ namespace ShogiGUI
                     {
                         prevImage = boardGrid[cells[i].x, cells[i].y].Image.Clone() as Bitmap;
                     }
+
                     boardGrid[cells[i].x, cells[i].y].Image = new Bitmap(
                         dotImage,
                         new Size(
