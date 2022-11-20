@@ -21,6 +21,7 @@ namespace ShogiGUI
         private float pieceSize;
         private Game game;
         private Button[,] boardGrid;
+        private Dictionary<Button, ToolTip> toolTips;
         private List<Button> whiteHandGrid;
         private List<Button> blackHandGrid;
         private (int x, int y)? selectedBoardCell;
@@ -42,6 +43,7 @@ namespace ShogiGUI
             pieceSize = 1f;
             game = new Game();
             boardGrid = new Button[game.Board.Size, game.Board.Size];
+            toolTips = new Dictionary<Button, ToolTip>();
             whiteHandGrid = new List<Button>();
             blackHandGrid = new List<Button>();
             selectedBoardCell = null;
@@ -55,6 +57,7 @@ namespace ShogiGUI
             ShowBoard();
             ShowWhiteHand();
             ShowBlackHand();
+            UpdateGameStateLabel();
         }
 
         public bool Destroyed()
@@ -84,6 +87,21 @@ namespace ShogiGUI
             return (side, x);
         }
 
+        private void UpdateToolTip(Button button, string tip)
+        {
+            if (!toolTips.ContainsKey(button))
+            {
+                toolTips.Add(button, new ToolTip());
+            }
+            toolTips[button].SetToolTip(button, tip);
+            
+        }
+
+        private void UpdateGameStateLabel(object sender=null, EventArgs e=null)
+        {
+            GameStateLabel.Text = game.CurrentMessage();
+        }
+
         private void ShowBoard()
         {
             buttonWidth = ScreenBoard.Width / game.Board.Size;
@@ -98,6 +116,7 @@ namespace ShogiGUI
                     currentButton.Height = buttonHeight;
                     currentButton.Width = buttonWidth;
                     currentButton.Click += BoardGridButton_OnClick;
+                    currentButton.Click += UpdateGameStateLabel;
                     currentButton.Location = new Point(j * buttonWidth, i * buttonHeight);
                     currentButton.BackColor = defaultColor;
                     currentButton.Tag = (i, j);
@@ -117,9 +136,7 @@ namespace ShogiGUI
                     }           
                     
                     ScreenBoard.Controls.Add(currentButton);
-
-                    ToolTip currentButtonTip = new ToolTip();
-                    currentButtonTip.SetToolTip(currentButton, game.Board.NameRUS(i, j));
+                    UpdateToolTip(currentButton, game.Board.NameRUS(i, j));
                 }
             }
         }
@@ -231,7 +248,6 @@ namespace ShogiGUI
                 selectedHandCell = cell;
             }
         }
-
         private void SetTargetBoardCell((int x, int y)? cell)
         {
             if (cell == null)
@@ -247,7 +263,7 @@ namespace ShogiGUI
             {
                 SetTargetBoardCell(null);
                 (int x, int y) cellMod = NullableToNormal(cell);
-                boardGrid[cellMod.x, cellMod.y].BackColor = selectedColor;
+                boardGrid[cellMod.x, cellMod.y].BackColor = defaultColor;
                 targetBoardCell = cell;
             }
         }
@@ -276,19 +292,19 @@ namespace ShogiGUI
             secondBtn.Click += BoardGridButton_OnClick;
 
             boardGrid[board.x, board.y] = secondBtn;
-            ScreenBoard.Controls.Remove(firstBtn);
             ScreenBoard.Controls.Add(secondBtn);
+            ScreenBoard.Controls.Remove(firstBtn);
             if (hand.side == GameSide.White)
             {
                 whiteHandGrid[hand.x] = firstBtn;
-                WhiteHand.Controls.Remove(secondBtn);
                 WhiteHand.Controls.Add(firstBtn);
+                WhiteHand.Controls.Remove(secondBtn);
             }
             else if (hand.side == GameSide.Black)
             {
                 blackHandGrid[hand.x] = firstBtn;
-                BlackHand.Controls.Remove(secondBtn);
                 BlackHand.Controls.Add(firstBtn);
+                BlackHand.Controls.Remove(secondBtn);
             }
         }
 
@@ -303,7 +319,7 @@ namespace ShogiGUI
             int i = 0;
             while (i < hand.Count)
             {
-                if (hand[i].Text == "")
+                if (hand[i].Image == null)
                 {
                     return ((GameSide)side, i);
                 }
@@ -320,10 +336,20 @@ namespace ShogiGUI
             (GameSide side, int x)? freeHandCell = GetFreeHandCell(game.Board.Side(to.x, to.y));
             if (freeHandCell != null)
             {
-                SwapBoardAndHandCells(from, NullableToNormal(freeHandCell));
-                /*string newImageName = game.Board.OppositeSideName()
+                (GameSide side, int x) freeHandCellMod = NullableToNormal(freeHandCell);
+                SwapBoardAndHandCells(from, freeHandCellMod);
+                string newImageName = game.Hand(freeHandCellMod.side).Name(freeHandCellMod.x);
                 Bitmap newImage = ShogiGUI.Properties.Resources.ResourceManager.GetObject(newImageName) as Bitmap;
-                GetHandCellButton(freeHandCell).Image = */
+                if (newImage != null)
+                {
+                    Bitmap resizedImage = new Bitmap(
+                        newImage,
+                        new Size(
+                            (int)(buttonWidth * pieceSize),
+                            (int)(buttonHeight * pieceSize)));
+                    GetHandCellButton(freeHandCell).Image = resizedImage;
+                }
+                UpdateToolTip(GetHandCellButton(freeHandCell), game.Hand(freeHandCellMod.side).NameRUS(freeHandCellMod.x));
             }
         }
 
@@ -333,6 +359,22 @@ namespace ShogiGUI
             (int x, int y) to = NullableToNormal(nullableTo);
 
             SwapBoardAndHandCells(to, from);
+        }
+
+        private void PromoteCell((int x, int y) cell)
+        {
+            string newImageName = game.Board.Name(cell.x, cell.y);
+            Bitmap newImage = ShogiGUI.Properties.Resources.ResourceManager.GetObject(newImageName) as Bitmap;
+            if (newImage != null)
+            {
+                Bitmap resizedImage = new Bitmap(
+                    newImage,
+                    new Size(
+                        (int)(buttonWidth * pieceSize),
+                        (int)(buttonHeight * pieceSize)));
+                boardGrid[cell.x, cell.y].Image = resizedImage;
+            }
+            UpdateToolTip(boardGrid[cell.x, cell.y], game.Board.NameRUS(cell.x, cell.y));
         }
 
         private void BoardGridButton_OnClick(object sender, EventArgs e)
@@ -355,15 +397,21 @@ namespace ShogiGUI
                 {
                     DropCell(selectedHandCell, targetBoardCell);
                 }
-
                 SetSelectedBoardCell(null);
-                SetSelectedHandCell(null);
-                SetTargetBoardCell(null);
             }
             else if (selectedBoardCell == null)
             {
                 ShowMoves(game.AvailableMoves(pressedCell.x, pressedCell.y));
                 SetSelectedBoardCell(pressedCell);
+            }
+            else if (pressedCell == selectedBoardCell)
+            {
+                bool promoted = game.Promote(pressedCell.x, pressedCell.y);
+                if (promoted)
+                {
+                    PromoteCell(pressedCell);
+                }
+                SetSelectedBoardCell(null);
             }
             else if (game.Board.OneSideStrict(selectedBoardCell ?? (0, 0), pressedCell))
             {
@@ -379,8 +427,9 @@ namespace ShogiGUI
                     MoveCell(selectedBoardCell, targetBoardCell);
                 }
                 SetSelectedBoardCell(null);
-                SetTargetBoardCell(null);
             }
+            SetSelectedHandCell(null);
+            SetTargetBoardCell(null);
         }
 
         private void HandButton_OnClick(object sender, EventArgs e)
@@ -413,21 +462,6 @@ namespace ShogiGUI
                     temp.Add((cells[i].x, cells[i].y, prevImage));
                 }
             }
-        }
-
-        private void GameForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
         }
     }
 }

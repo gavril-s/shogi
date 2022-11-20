@@ -9,6 +9,7 @@ namespace ShogiModel
     public class ShogiBoard
     {
         public int Size = 9;
+        public int PromoteBorder = 3;
         private ShogiPiece?[,] prevBoardState;
         private (int x, int y) prevWhiteKing;
         private (int x, int y) prevBlackKing;
@@ -48,7 +49,7 @@ namespace ShogiModel
                 if (drop != null)
                 {
                     ShogiPiece dropPiece = (ShogiPiece)drop;
-                    return dropPiece.Opposite();
+                    return dropPiece.Opposite().Unpromote();
                 }
             }
             return null;
@@ -60,6 +61,16 @@ namespace ShogiModel
             if (InsideBoard(to.x, to.y))
             {
                 Board[to.x, to.y] = piece;
+            }
+        }
+
+        internal void Promote(int x, int y)
+        {
+            SaveBoard();
+            if (InsideBoard(x, y) && !IsFree(x, y))
+            {
+                ShogiPiece piece = (ShogiPiece)Board[x, y];
+                Board[x, y] = piece.Promote();
             }
         }
 
@@ -89,17 +100,6 @@ namespace ShogiModel
             return piece.Name();
         }
 
-        public string OppositeSideName(int x, int y)
-        {
-
-            if (!InsideBoard(x, y) || IsFree(x, y))
-            {
-                return "";
-            }
-            ShogiPiece piece = (ShogiPiece)Board[x, y];
-            return piece.Opposite().Name();
-        }
-
         public (int x, int y) WhiteKing()
         {
             return whiteKing;
@@ -108,6 +108,19 @@ namespace ShogiModel
         public (int x, int y) BlackKing()
         {
             return blackKing;
+        }
+
+        public bool CanBePromoted(int x, int y)
+        {
+            if (!InsideBoard(x, y) || IsFree(x, y))
+            {
+                return false;
+            }
+            ShogiPiece piece = (ShogiPiece)Board[x, y];
+
+            return piece.CanBePromoted() &&
+                ((piece.Side() == GameSide.White && x < PromoteBorder) ||
+                 (piece.Side() == GameSide.Black && x >= Size - PromoteBorder));
         }
 
         private bool InsideBoard(int x, int y)

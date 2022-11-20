@@ -8,21 +8,35 @@ namespace ShogiModel
 {
     public class Game
     {
+        private string whiteTurnMsg = "Ход белых";
+        private string blackTurnMsg = "Ход чёрных";
+        private string whiteCheckMsg = "Шах чёрным";
+        private string blackCheckMsg = "Шах белым";
+        private string whiteWinMsg = "Белые победили";
+        private string blackWinMsg = "Чёрные победили";
+
         public ShogiBoard Board { get; }
+        public ShogiHand WhiteHand { get; }
+        public ShogiHand BlackHand { get; }
+        private GameSide currentMoveSide;
         private bool end;
         private GameSide? winner;
-        private List<ShogiPiece> whiteHand;
-        private List<ShogiPiece> blackHand;
-        private GameSide currentMoveSide;
+        private string currentMessage;
 
         public Game()
         {
             Board = new ShogiBoard();
+            WhiteHand = new ShogiHand();
+            BlackHand = new ShogiHand();
+            currentMoveSide = GameSide.White;
             end = false;
             winner = null;
-            whiteHand = new List<ShogiPiece>();
-            blackHand = new List<ShogiPiece>();
-            currentMoveSide = GameSide.White;
+            currentMessage = whiteTurnMsg;
+        }
+
+        public ShogiHand Hand(GameSide side)
+        {
+            return (side == GameSide.White) ? WhiteHand : BlackHand;
         }
 
         public bool End()
@@ -40,9 +54,15 @@ namespace ShogiModel
             return currentMoveSide;
         }
 
+        public string CurrentMessage()
+        {
+            return currentMessage;
+        }
+
         private void Turn()
         {
             currentMoveSide = (currentMoveSide == GameSide.White) ? GameSide.Black : GameSide.White;
+            currentMessage = (currentMoveSide == GameSide.White) ? whiteTurnMsg : blackTurnMsg;
         }
 
         public List<(int x, int y)> AvailableMoves(int x, int y)
@@ -74,26 +94,25 @@ namespace ShogiModel
                 {
                     if (currentMoveSide == GameSide.White)
                     {
-                        whiteHand.Add((ShogiPiece)drop);
+                        WhiteHand.Add((ShogiPiece)drop);
                     }
                     else if (currentMoveSide == GameSide.Black)
                     {
-                        blackHand.Add((ShogiPiece)drop);
+                        BlackHand.Add((ShogiPiece)drop);
                     }
                 }
 
                 if (IsCheckFrom(currentMoveSide))
                 {
-                    Console.WriteLine("CHECK!");
+                    currentMessage = (currentMoveSide == GameSide.White) ? whiteCheckMsg : blackCheckMsg;
                 }
                 if (IsMateFrom(currentMoveSide))
                 {
                     end = true;
                     winner = currentMoveSide;
-                    Console.WriteLine("WIN");
-                    Console.WriteLine((winner == GameSide.White) ? "WHITE" : "BLACK");
+                    currentMessage = (winner == GameSide.White) ? whiteWinMsg : blackWinMsg;
                 }
-                
+
                 Turn();
                 return true;
             }
@@ -109,17 +128,17 @@ namespace ShogiModel
 
             ShogiPiece? piece = null;
             if (side == GameSide.White &&
-                from >= 0 && from < whiteHand.Count)
+                from >= 0 && from < WhiteHand.Count())
             {
-                piece = whiteHand[from];
+                piece = WhiteHand[from];
             }
             else if (side == GameSide.Black &&
-                from >= 0 && from < blackHand.Count)
+                from >= 0 && from < BlackHand.Count())
             {
-                piece = blackHand[from];
+                piece = BlackHand[from];
             }
 
-            if (piece != null && Board.IsFree(to.x, to.y))
+            if (side == currentMoveSide && piece != null && Board.IsFree(to.x, to.y))
             {
                 Board.Drop(piece, to);
                 if (AvailableMoves(to.x, to.y).Count != 0 &&
@@ -127,12 +146,13 @@ namespace ShogiModel
                 {
                     if (side == GameSide.White)
                     {
-                        whiteHand.RemoveAt(from);
+                        WhiteHand.RemoveAt(from);
                     }
                     else if (side == GameSide.Black)
                     {
-                        blackHand.RemoveAt(from);
+                        BlackHand.RemoveAt(from);
                     }
+                    Turn();
                     return true;
                 }
                 else
@@ -140,6 +160,17 @@ namespace ShogiModel
                     Board.Undo();
                     return false;
                 }
+            }
+            return false;
+        }
+
+        public bool Promote(int x, int y)
+        {
+            if (Board.Side(x, y) == currentMoveSide && 
+                Board.CanBePromoted(x, y))
+            {
+                Board.Promote(x, y);
+                return true;
             }
             return false;
         }

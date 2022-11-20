@@ -124,6 +124,36 @@ namespace ShogiModel
             return (ShogiPiece)(-(int)piece);
         }
 
+        public static bool CanBePromoted(this ShogiPiece piece)
+        {
+            return piece.Promote() != piece;
+        }
+
+        public static ShogiPiece Promote(this ShogiPiece piece)
+        {
+            switch (piece)
+            {
+                case ShogiPiece.KnightWhite:
+                    return ShogiPiece.PromotedKnightWhite;
+                case ShogiPiece.KnightBlack:
+                    return ShogiPiece.PromotedKnightBlack;
+                case ShogiPiece.LanceWhite:
+                    return ShogiPiece.PromotedLanceWhite;
+                case ShogiPiece.LanceBlack:
+                    return ShogiPiece.PromotedLanceBlack;
+                case ShogiPiece.PawnWhite:
+                    return ShogiPiece.PromotedPawnWhite;
+                case ShogiPiece.PawnBlack:
+                    return ShogiPiece.PromotedPawnBlack;
+                case ShogiPiece.SilverWhite:
+                    return ShogiPiece.PromotedSilverWhite;
+                case ShogiPiece.SilverBlack:
+                    return ShogiPiece.PromotedSilverBlack;
+                default:
+                    return piece;
+            }
+        }
+
         public static ShogiPiece Unpromote(this ShogiPiece piece)
         {
             switch (piece)
