@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShogiModel
 {
+    // Фигуры
     internal enum ShogiPiece : int
     {
         BishopWhite         = 1,
@@ -38,6 +39,7 @@ namespace ShogiModel
         PromotedSilverBlack = -14,
     }
 
+    // Класс-расширение для списка фигур
     internal static class ShogiPiecesUtils
     {
         static private Dictionary<ShogiPiece, string> names = new Dictionary<ShogiPiece, string>
@@ -119,6 +121,7 @@ namespace ShogiModel
             return (((int)piece) > 0 ? GameSide.White : GameSide.Black);
         }
 
+        // Возвращает ту же фигуру, но другого цвета
         public static ShogiPiece Opposite(this ShogiPiece piece)
         {
             return (ShogiPiece)(-(int)piece);
@@ -129,6 +132,7 @@ namespace ShogiModel
             return piece.Promote() != piece;
         }
 
+        // Переворачивает фигуру
         public static ShogiPiece Promote(this ShogiPiece piece)
         {
             switch (piece)
@@ -154,6 +158,7 @@ namespace ShogiModel
             }
         }
 
+        // Отменяет переворачивание
         public static ShogiPiece Unpromote(this ShogiPiece piece)
         {
             switch (piece)

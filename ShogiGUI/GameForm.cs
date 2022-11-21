@@ -12,6 +12,7 @@ using System.Windows.Forms;
 
 namespace ShogiGUI
 {
+    // Главная форма проекта ShogiGUI
     public partial class GameForm : Form
     {
         private Color defaultColor;
@@ -71,6 +72,9 @@ namespace ShogiGUI
             return destroyed;
         }
 
+        // Рисует на экране игровое поле
+        // Каждая клетка в нём - кнопка, на которой
+        // изображена соответствующая фигура
         private void ShowBoard()
         {
             buttonWidth = ScreenBoard.Width / game.Board.Size;
@@ -101,6 +105,7 @@ namespace ShogiGUI
             }
         }
 
+        // Рисует сброс белых (точно так же)
         private void ShowWhiteHand()
         {
             int handSize = (WhiteHand.Width / buttonWidth) * (WhiteHand.Height / buttonHeight);
@@ -123,6 +128,7 @@ namespace ShogiGUI
             }
         }
 
+        // Рисует сброс чёрных
         private void ShowBlackHand()
         {
             int handSize = (BlackHand.Width / buttonWidth) * (BlackHand.Height / buttonHeight);
@@ -145,6 +151,9 @@ namespace ShogiGUI
             }
         }
 
+        // Двигает фигуру (на экране). Эта функция вызывается только с разрешения
+        // Game.Move, то есть если Game.Move(from, to) вернул true,
+        // то мы двигаем from на to и на экране
         private void MoveCell((int x, int y)? nullableFrom, (int x, int y)? nullableTo)
         {
             (int x, int y) from = NullableToNormal(nullableFrom);
@@ -163,6 +172,7 @@ namespace ShogiGUI
             }
         }
 
+        // Cбрасывает. Всё то же самое
         private void DropCell((GameSide side, int x)? nullableFrom, (int x, int y)? nullableTo)
         {
             (GameSide side, int x) from = NullableToNormal(nullableFrom);
@@ -171,6 +181,7 @@ namespace ShogiGUI
             SwapBoardAndHandCells(to, from);
         }
 
+        // Переворачивает
         private void PromoteCell((int x, int y) cell)
         {
             string newImageName = game.Board.Name(cell.x, cell.y);
@@ -186,6 +197,9 @@ namespace ShogiGUI
             Program.GetGameEndForm(msg).Show();
         }
 
+        // Вызывается когда игрок нажимает на фигуру на игровом поле
+        // Довольно важная часть класса, потому что все действия фактически
+        // завязаны на ней
         private void BoardGridButton_OnClick(object sender, EventArgs e)
         {
             if (game.End())
@@ -199,45 +213,60 @@ namespace ShogiGUI
             (int x, int y) pressedCell = buttonTag;
 
             ClearTemp();
-            if (selectedHandCell != null)
+            if (selectedHandCell != null) // если игрок до этого уже нажал на клетку
+                                          // у себя в руке, тем самым выбрав её
             {
-                SetTargetBoardCell(pressedCell);
+                SetTargetBoardCell(pressedCell); // нажатая только что клетка рассматривается
+                                                 // как target для сброса
                 (GameSide side, int x) selectedHand = NullableToNormal(selectedHandCell);
+
+                // пытаемся сбросить
                 bool droped = game.Drop(
                     selectedHand.side,
                     selectedHand.x,
                     targetBoardCell ?? (0, 0));
-                if (droped)
+                if (droped) // если класс Game не против
                 {
+                    // выполняем сброс на доске
                     DropCell(selectedHandCell, targetBoardCell);
                 }
                 SetSelectedBoardCell(null);
             }
-            else if (selectedBoardCell == null)
+            else if (selectedBoardCell == null) // если до этого никакая другая 
+                                                // клетка не была выбрана
             {
                 ShowMoves(game.AvailableMoves(pressedCell.x, pressedCell.y));
                 SetSelectedBoardCell(pressedCell);
             }
-            else if (pressedCell == selectedBoardCell)
+            else if (pressedCell == selectedBoardCell) // если игрок два раза нажал
+                                                       // одну и ту же клетку на доске
             {
+                // пытаемся первернуть
                 bool promoted = game.Promote(pressedCell.x, pressedCell.y);
-                if (promoted)
+                if (promoted) // если Game не против
                 {
+                    // переворачиваем на доске
                     PromoteCell(pressedCell);
                 }
                 SetSelectedBoardCell(null);
             }
             else if (game.Board.OneSideStrict(selectedBoardCell ?? (0, 0), pressedCell))
+                // если выбранная до этого клетка и текущая одного цвета
             {
+                // переключаем внимание на выбранную только что клетку
+                // и показываем её возможные ходы
                 ShowMoves(game.AvailableMoves(pressedCell.x, pressedCell.y));
                 SetSelectedBoardCell(pressedCell);
             }
-            else
+            else // остался случай когда мы уже выбрали клетку на доске
+                 // а теперь нажали на вторую другого цвета
             {
-                SetTargetBoardCell(pressedCell);
+                SetTargetBoardCell(pressedCell); // рассматриваем как target для хода
+                // пытаемся походить
                 bool moved = game.Move(selectedBoardCell ?? (0, 0), targetBoardCell ?? (0, 0));
-                if (moved)
+                if (moved) // ну и тут то же самое
                 {
+                    // 3-й раз уже одно и то же
                     MoveCell(selectedBoardCell, targetBoardCell);
                 }
                 SetSelectedBoardCell(null);
@@ -247,6 +276,7 @@ namespace ShogiGUI
             UpdateGameStateLabel();
         }
 
+        // Вызывает когда игрок наживает на фигуру у себя в руке
         private void HandButton_OnClick(object sender, EventArgs e)
         {
             if (game.End())
@@ -262,6 +292,7 @@ namespace ShogiGUI
             UpdateGameStateLabel();
         }
 
+        // Это для кнопки "сдаться"
         private void SurrenderButton_OnClick(object sender, EventArgs e)
         {
             if (game.End())
@@ -273,6 +304,8 @@ namespace ShogiGUI
             EndGame(winner);
         }
 
+        // Отмечает все клетки из массива cells зелёными точками
+        // Используется для отображения возможных ходов
         private void ShowMoves(List<(int x, int y)> cells)
         {
             for (int i = 0; i < cells.Count; i++)
@@ -294,6 +327,61 @@ namespace ShogiGUI
                     temp.Add((cells[i].x, cells[i].y, prevImage));
                 }
             }
+        }
+
+        // Меняет местами две клетки на доске
+        private void SwapBoardCells((int x, int y) first, (int x, int y) second)
+        {
+            Button firstBtn = boardGrid[first.x, first.y];
+            Button secondBtn = boardGrid[second.x, second.y];
+            (firstBtn, secondBtn) = (secondBtn, firstBtn);
+            (firstBtn.Tag, secondBtn.Tag) = (secondBtn.Tag, firstBtn.Tag);
+            (firstBtn.Location, secondBtn.Location) = (secondBtn.Location, firstBtn.Location);
+            boardGrid[first.x, first.y] = firstBtn;
+            boardGrid[second.x, second.y] = secondBtn;
+        }
+
+        // Меняет местами клетку на доске и клетку из руки
+        private void SwapBoardAndHandCells((int x, int y) board, (GameSide side, int x) hand)
+        {
+            Button firstBtn = GetHandCellButton(hand);
+            Button secondBtn = boardGrid[board.x, board.y];
+            (firstBtn, secondBtn) = (secondBtn, firstBtn);
+            (firstBtn.Tag, secondBtn.Tag) = (secondBtn.Tag, firstBtn.Tag);
+            (firstBtn.Location, secondBtn.Location) = (secondBtn.Location, firstBtn.Location);
+            firstBtn.Click -= BoardGridButton_OnClick;
+            firstBtn.Click += HandButton_OnClick;
+            secondBtn.Click -= HandButton_OnClick;
+            secondBtn.Click += BoardGridButton_OnClick;
+
+            boardGrid[board.x, board.y] = secondBtn;
+            ScreenBoard.Controls.Add(secondBtn);
+            ScreenBoard.Controls.Remove(firstBtn);
+            if (hand.side == GameSide.White)
+            {
+                whiteHandGrid[hand.x] = firstBtn;
+                WhiteHand.Controls.Add(firstBtn);
+                WhiteHand.Controls.Remove(secondBtn);
+            }
+            else if (hand.side == GameSide.Black)
+            {
+                blackHandGrid[hand.x] = firstBtn;
+                BlackHand.Controls.Add(firstBtn);
+                BlackHand.Controls.Remove(secondBtn);
+            }
+        }
+
+
+        /*
+         Дальше идут функции более служебного характера, чем те,
+         что были выше, поэтому в них можно особо не вчитываться - 
+         там всё по названию понятно
+        */
+
+        private void OnDestroy()
+        {
+            Program.GetMenuForm().Show();
+            destroyed = true;
         }
 
         private void SetSelectedBoardCell((int x, int y)? cell)
@@ -320,7 +408,7 @@ namespace ShogiGUI
         }
 
         private void SetSelectedHandCell((GameSide side, int x)? cell)
-        { 
+        {
             if (cell == null)
             {
                 if (selectedHandCell != null)
@@ -363,53 +451,6 @@ namespace ShogiGUI
                 boardGrid[cellMod.x, cellMod.y].BackColor = defaultColor;
                 targetBoardCell = cell;
             }
-        }
-
-        private void SwapBoardCells((int x, int y) first, (int x, int y) second)
-        {
-            Button firstBtn = boardGrid[first.x, first.y];
-            Button secondBtn = boardGrid[second.x, second.y];
-            (firstBtn, secondBtn) = (secondBtn, firstBtn);
-            (firstBtn.Tag, secondBtn.Tag) = (secondBtn.Tag, firstBtn.Tag);
-            (firstBtn.Location, secondBtn.Location) = (secondBtn.Location, firstBtn.Location);
-            boardGrid[first.x, first.y] = firstBtn;
-            boardGrid[second.x, second.y] = secondBtn;
-        }
-
-        private void SwapBoardAndHandCells((int x, int y) board, (GameSide side, int x) hand)
-        {
-            Button firstBtn = GetHandCellButton(hand);
-            Button secondBtn = boardGrid[board.x, board.y];
-            (firstBtn, secondBtn) = (secondBtn, firstBtn);
-            (firstBtn.Tag, secondBtn.Tag) = (secondBtn.Tag, firstBtn.Tag);
-            (firstBtn.Location, secondBtn.Location) = (secondBtn.Location, firstBtn.Location);
-            firstBtn.Click -= BoardGridButton_OnClick;
-            firstBtn.Click += HandButton_OnClick;
-            secondBtn.Click -= HandButton_OnClick;
-            secondBtn.Click += BoardGridButton_OnClick;
-
-            boardGrid[board.x, board.y] = secondBtn;
-            ScreenBoard.Controls.Add(secondBtn);
-            ScreenBoard.Controls.Remove(firstBtn);
-            if (hand.side == GameSide.White)
-            {
-                whiteHandGrid[hand.x] = firstBtn;
-                WhiteHand.Controls.Add(firstBtn);
-                WhiteHand.Controls.Remove(secondBtn);
-            }
-            else if (hand.side == GameSide.Black)
-            {
-                blackHandGrid[hand.x] = firstBtn;
-                BlackHand.Controls.Add(firstBtn);
-                BlackHand.Controls.Remove(secondBtn);
-            }
-        }
-
-        // UTILS
-        private void OnDestroy()
-        {
-            Program.GetMenuForm().Show();
-            destroyed = true;
         }
 
         private void ClearTemp()

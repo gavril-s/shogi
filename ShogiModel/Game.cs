@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShogiModel
 {
+    // Самый главный класс проекта ShogiModel.
+    // Заведует игровой логикой
     public class Game
     {
         private string whiteTurnMsg = "Ход белых";
@@ -60,12 +62,16 @@ namespace ShogiModel
             return currentMessage;
         }
 
+        // переключение стороны хода
         private void Turn()
         {
             currentMoveSide = (currentMoveSide == GameSide.White) ? GameSide.Black : GameSide.White;
             currentMessage = (currentMoveSide == GameSide.White) ? whiteTurnMsg : blackTurnMsg;
         }
 
+        // Показывает возможные ходы, но в отличие от 
+        // GameBoard делает это с учётом ситуации в игре,
+        // а именно отслеживает шахи
         public List<(int x, int y)> AvailableMoves(int x, int y)
         {
             if (end)
@@ -85,7 +91,9 @@ namespace ShogiModel
 
             return result;
         }
-
+        
+        // Двигает фигуру с from на to. Может отказать (вернуть false),
+        // если ход не соответствует правилам
         public bool Move((int x, int y) from, (int x, int y) to)
         {
             if (end == false &&
@@ -122,6 +130,8 @@ namespace ShogiModel
             return false;
         }
 
+        // Сбрасывает фишку номер from из руки игрока side на to
+        // Также может отказаться, если такой ход невозможен
         public bool Drop(GameSide side, int from, (int x, int y) to)
         {
             if (end)
@@ -167,6 +177,7 @@ namespace ShogiModel
             return false;
         }
 
+        // Переворачивает. То же самое
         public bool Promote(int x, int y)
         {
             if (end)
@@ -183,6 +194,7 @@ namespace ShogiModel
             return false;
         }
 
+        // Сторона side сдаётся
         public bool Surrender(GameSide side)
         {
             if (end)
@@ -194,6 +206,7 @@ namespace ShogiModel
             return true;
         }
 
+        // Ходящая сейчас сторона сдаётся
         public bool Surrender()
         {
             return Surrender(currentMoveSide);

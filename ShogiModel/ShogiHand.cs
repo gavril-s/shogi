@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ShogiModel
 {
+    // Описание коллекции фишек на руке у игрока (сброс)
+    // (на самом деле просто небольшая обёртка для List<ShogiPiece>
     public class ShogiHand
     {
         private List<ShogiPiece> pieces;

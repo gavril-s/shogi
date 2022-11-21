@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShogiModel
 {
+    // Ну тут-то всё точно понятно
     public enum GameSide : int
     {
         White = 0, 

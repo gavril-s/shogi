@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace ShogiModel
 {
+    // Игровое поле
+    // Этот класс никак не заведует игровой логикой,
+    // его задача хранить фигуры и двигать их, когда скажут.
+    // Он знает характеристики фигур и доски, то есть
+    // как фигуры ходят и как они стоят на доске
+    // в начале игры, но сам фигурами не 
+    // управляет, это делает класс Game.
     public class ShogiBoard
     {
         public int Size = 9;
@@ -13,7 +20,7 @@ namespace ShogiModel
         private ShogiPiece?[,] prevBoardState;
         private (int x, int y) prevWhiteKing;
         private (int x, int y) prevBlackKing;
-        private ShogiPiece?[,] Board;
+        private ShogiPiece?[,] Board; // <- вот тут хранятся фигурыы
         private (int x, int y) whiteKing;
         private (int x, int y) blackKing;
 
@@ -23,6 +30,7 @@ namespace ShogiModel
             FillBoardDefault();
         }
 
+        // Сохраняет текущее состояние доски, чтобы потом можно было вернуться
         private void SaveBoard()
         {
             prevBoardState = (ShogiPiece?[,])Board.Clone();
@@ -30,6 +38,8 @@ namespace ShogiModel
             prevBlackKing = blackKing;
         }
 
+        // Двигает фигуру с from на to
+        // (просто двигает без вопросов)
         internal ShogiPiece? Move((int x, int y) from, (int x, int y) to)
         {
             SaveBoard();
@@ -55,6 +65,7 @@ namespace ShogiModel
             return null;
         }
 
+        // Сбрасывает фигуру указанного типа на поле to
         internal void Drop(ShogiPiece? piece, (int x, int y) to)
         {
             SaveBoard();
@@ -64,6 +75,7 @@ namespace ShogiModel
             }
         }
 
+        // Переворачивает фигуру на поле (x, y)
         internal void Promote(int x, int y)
         {
             SaveBoard();
@@ -74,6 +86,7 @@ namespace ShogiModel
             }
         }
 
+        // Возвращает доску к последнему сохранённому состоянию
         internal void Undo()
         {
             Board = (ShogiPiece?[,])prevBoardState.Clone();
@@ -81,6 +94,7 @@ namespace ShogiModel
             blackKing = prevBlackKing;
         }
 
+        // Выдаёт имя фигуры
         public string NameRUS(int x, int y)
         {
             if (!InsideBoard(x, y) || IsFree(x, y))
@@ -91,6 +105,7 @@ namespace ShogiModel
             return piece.NameRUS();
         }
 
+        // Выдаёт имя фигуры
         public string Name(int x, int y)
         {
             if (!InsideBoard(x, y) || IsFree(x, y))
@@ -135,6 +150,9 @@ namespace ShogiModel
             return (InsideBoard(x, y) && Board[x, y] == null);
         }
 
+        // Возвращает true если first и second одного цвета ИЛИ
+        // на поле first или на поле second ничего нет ИЛИ
+        // если полей с такими координатами на доске нет
         public bool OneSideSoft((int x, int y) first, (int x, int y) second)
         {
             if (!InsideBoard(first.x, first.y) || !InsideBoard(second.x, second.y))
@@ -150,6 +168,7 @@ namespace ShogiModel
             return firstPiece.Side() == secondPiece.Side();
         }
 
+        // Возвращает true ТОЛЬКО если first и second реально есть на доске и одного цвета
         public bool OneSideStrict((int x, int y) first, (int x, int y) second)
         {
             if (!InsideBoard(first.x, first.y) || !InsideBoard(second.x, second.y))
@@ -175,6 +194,7 @@ namespace ShogiModel
             return piece.Side();
         }
 
+        // Для функции AvailableMoves
         private bool AddIfReachable(List<(int x, int y)> list, (int x, int y) from, (int x, int y) to)
         {
             if (IsFree(to.x, to.y) || !OneSideStrict(from, to))
@@ -185,6 +205,9 @@ namespace ShogiModel
             return false;
         }
 
+        // Возвращает все доступные ходы из поля (x, y)
+        // Логика работы простая: огромный свитч-кейс,
+        // вручную прописаны возможные ходы
         internal List<(int x, int y)> AvailableMoves(int x, int y)
         {
             List<(int x, int y)> result = new List<(int x, int y)>();
@@ -421,6 +444,10 @@ namespace ShogiModel
 
             return result;
         }
+
+        // Функция заполняет доску фигурами для игры
+        // устанавливая их в начальные позиции
+        // Тоже всё просто, сделано вручную
         private void FillBoardDefault()
         {
             for (int i = 0; i < Size; i++)
