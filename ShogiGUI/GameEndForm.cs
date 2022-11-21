@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ShogiGUI
 {
-    public partial class MenuForm : Form
+    public partial class GameEndForm : Form
     {
         private bool destroyed = false;
 
@@ -19,27 +19,20 @@ namespace ShogiGUI
             return destroyed;
         }
 
-        public MenuForm()
+        public GameEndForm()
         {
             InitializeComponent();
-            ToTheGameButton.Click += ToTheGameButton_OnClick;
-            RulesButton.Click += RulesButton_OnClick;
         }
 
-        private void ToTheGameButton_OnClick(object sender, EventArgs e)
+        public GameEndForm(string text)
         {
-            Program.GetGameForm().Show();
-            this.Hide();
-        }
-
-        private void RulesButton_OnClick(object sender, EventArgs e)
-        {
-            Program.GetRulesForm().Show();
-            this.Hide();
+            InitializeComponent();
+            MessageLabel.Text = text;
         }
 
         private void OnDestroy()
         {
+            Program.GetGameForm().Close();
             destroyed = true;
         }
     }

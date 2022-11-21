@@ -10,6 +10,7 @@ namespace ShogiGUI
     {
         private static GameForm gameForm;
         private static MenuForm menuForm;
+        private static RulesForm rulesForm;
 
         public static GameForm GetGameForm()
         {
@@ -29,6 +30,20 @@ namespace ShogiGUI
             return menuForm;
         }
 
+        public static RulesForm GetRulesForm()
+        {
+            if (rulesForm == null || rulesForm.Destroyed())
+            {
+                rulesForm = new RulesForm();
+            }
+            return rulesForm;
+        }
+
+        public static GameEndForm GetGameEndForm(string text)
+        {
+            return new GameEndForm(text);
+        }
+
         /// <summary>
         /// Главная точка входа для приложения.
         /// </summary>
@@ -39,7 +54,6 @@ namespace ShogiGUI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            gameForm = GetGameForm();
             menuForm = GetMenuForm();
             Application.Run(menuForm);
         }

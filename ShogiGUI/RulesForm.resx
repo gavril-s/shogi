@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="RulesBox.Text" xml:space="preserve">
+    <value>Правила игры:
+Фигуры
+Каждый игрок в начале партии имеет по 20 фигур: 1 король, 1 ладья, 1 слон, 2 золотых и 2 серебряных генерала, 2 коня, 2 стрелки и 9 пешек. 
+Фигуры имеют форму вытянутого пятиугольника со скосом в сторону противника. Фигуры обеих сторон не различаются по цвету, а их принадлежность определяется направлением: фигуры расположены остриём к противнику. 
+Ход в сёги может быть одного из двух видов: обычный (ход на доске) и сброс. Ход на доске — это перемещение своей фигуры с одного поля на другое поле в соответствии с правилами хода данной фигуры. Если ход на доске делается на поле, занятое фигурой противника, эта фигура берётся — снимается с доски и переходит в резерв («руку») к взявшему её игроку.
+Сброс — это выставление на доску одной из фигур, имеющейся в резерве («руке») игрока. Сброшенная фигура ставится основной версией, остриём в сторону противника и далее играет на стороне сбросившего. Сброс является отдельным ходом: за один ход игрок может или сбросить фигуру, или сделать ход фигурой на доске. 
+Разрешён сброс на любое пустое поле доски любой фигуры из руки, за следующими исключениями:
+запрещено сбрасывать пешку на вертикаль, на которой уже стоит неперевёрнутая пешка того же игрока.
+запрещено ставить мат сбросом пешки.
+Запрещено выставлять фигуру на поле, на котором она не будет иметь возможности хода по правилам (то есть пешку или стрелку на последнюю горизонталь, коня на две последние горизонтали).
+Сбрасывать фигуры можно только в неперевёрнутом (непревращённом) виде. 
+Переворот (превращение)
+Три последние горизонтали доски (относительно каждого из игроков) являются так называемой «зоной переворота» (также вместо слова переворот часто используется термин превращение). Фигура, делающая ход в эту зону, ход внутри зоны или из неё, может быть перевёрнута. Переворот не является отдельным ходом, а происходит в процессе хода фигуры на доске.
+Превращение фигуры обязательно, если после хода не перевёрнутая фигура не имела бы возможности более ходить по правилам; в противном случае игрок может выбирать между ходом с превращением и ходом без превращения. Например, когда игрок ходит пешкой на седьмую или восьмую горизонталь, он может, по желанию, перевернуть её или оставить в прежнем положении, но при ходе на последнюю горизонталь пешка должна быть превращена, так как не превращённая пешка на девятой горизонтали не имеет хода. Аналогично, конь может быть превращён при ходе на седьмую горизонталь, и должен быть превращён при ходе на восьмую или девятую.
+Фигура остаётся превращённой, пока не будет снята с доски. Если превращённая фигура захватывается, то игрок может сбросить её только как обычную. Переворот при сбросе невозможен, независимо от того, на какое поле выставляется фигура. Превратить сброшенную фигуру разрешается не ранее следующего хода, поэтому сбрасывать фигуру на поле, с которого она не будет иметь хода по правилам, нельзя.
+Итог игры
+Игра заканчивается, когда одна из сторон ставит «мат» королю противника, то есть создаёт позицию, в которой король противника находится под боем («шахом») и этот шах противник не может устранить никаким ходом. Поставивший мат выигрывает. Говорить «шах» и «мат» при этом считается неэтичным.
+Также игра заканчивается, если один из игроков сдаётся. Победа присуждается его противнику.
+
+
+</value>
+  </data>
+</root>

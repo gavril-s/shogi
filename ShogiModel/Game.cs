@@ -18,6 +18,7 @@ namespace ShogiModel
         public ShogiBoard Board { get; }
         public ShogiHand WhiteHand { get; }
         public ShogiHand BlackHand { get; }
+
         private GameSide currentMoveSide;
         private bool end;
         private GameSide? winner;
@@ -67,6 +68,10 @@ namespace ShogiModel
 
         public List<(int x, int y)> AvailableMoves(int x, int y)
         {
+            if (end)
+            {
+                return new List<(int x, int y)>();
+            }
             List<(int x, int y)> physicallyAvailableMoves = Board.AvailableMoves(x, y);
             List<(int x, int y)> result = new List<(int x, int y)>();
             foreach ((int x, int y) move in physicallyAvailableMoves)
@@ -108,9 +113,7 @@ namespace ShogiModel
                 }
                 if (IsMateFrom(currentMoveSide))
                 {
-                    end = true;
-                    winner = currentMoveSide;
-                    currentMessage = (winner == GameSide.White) ? whiteWinMsg : blackWinMsg;
+                    SetWinner(currentMoveSide);
                 }
 
                 Turn();
@@ -166,6 +169,11 @@ namespace ShogiModel
 
         public bool Promote(int x, int y)
         {
+            if (end)
+            {
+                return false;
+            }
+            
             if (Board.Side(x, y) == currentMoveSide && 
                 Board.CanBePromoted(x, y))
             {
@@ -173,6 +181,29 @@ namespace ShogiModel
                 return true;
             }
             return false;
+        }
+
+        public bool Surrender(GameSide side)
+        {
+            if (end)
+            {
+                return false;
+            }
+
+            SetWinner(side.Opponent());
+            return true;
+        }
+
+        public bool Surrender()
+        {
+            return Surrender(currentMoveSide);
+        }
+
+        private void SetWinner(GameSide side)
+        {
+            end = true;
+            winner = side;
+            currentMessage = (winner == GameSide.White) ? whiteWinMsg : blackWinMsg;
         }
 
         private bool WouldBeCheckFrom(GameSide side, (int x, int y) from, (int x, int y) to)

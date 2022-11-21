@@ -80,6 +80,7 @@ namespace ShogiModel
             whiteKing = prevWhiteKing;
             blackKing = prevBlackKing;
         }
+
         public string NameRUS(int x, int y)
         {
             if (!InsideBoard(x, y) || IsFree(x, y))
@@ -123,7 +124,7 @@ namespace ShogiModel
                  (piece.Side() == GameSide.Black && x >= Size - PromoteBorder));
         }
 
-        private bool InsideBoard(int x, int y)
+        public bool InsideBoard(int x, int y)
         {
             return (x >= 0 && x < Board.GetLength(0) &&
                     y >= 0 && y < Board.GetLength(1));
